@@ -47,3 +47,27 @@ For 60:
 \[
 (2+1) \times (1+1) \times (1+1) = 12\ \text{divisors}
 \]
+
+---
+
+# Jupyter Notebook Tips
+
+## Auto-reload Modules
+When working in a notebook and modifying external `.py` files, use this magic command to auto-reload changes without restarting the kernel:
+
+```python
+%load_ext autoreload
+%autoreload 2
+```
+
+---
+
+# Python Tips
+
+## Finding the Largest Character in a String
+You can use `max()` directly on a string to find the character with the highest value (based on ASCII/Unicode value). For strings of digits, this effectively finds the largest digit.
+
+```python
+digits = "3295"
+largest = max(digits)  # Returns "9" (as a string)
+```
