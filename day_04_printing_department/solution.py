@@ -63,3 +63,27 @@ def count_accessible(grid):
                 if cur_adjacent_rolls < 4: 
                     total_accessible += 1
     return total_accessible
+
+
+def count_accessible_with_iter_remove(grid):
+    """ Given a grid, count the total number of accessible rolls by itereatively removing the rolls """
+    total_accessible = 0
+    iter_accesible = 1
+    cur_grid = grid
+    while iter_accesible != 0:
+        next_grid = cur_grid
+        iter_accesible = 0
+
+        for row in range(len(cur_grid)):
+            for col in range(len(cur_grid[0])):
+                if cur_grid[row][col] == "@":
+                    cur_adjacent_rolls = count_adjacent_rolls(cur_grid, x=row, y=col)
+                    if cur_adjacent_rolls < 4:
+                        iter_accesible += 1
+                        next_grid[row][col] = "x"
+        
+        total_accessible += iter_accesible
+        cur_grid = next_grid
+    return total_accessible
+
+

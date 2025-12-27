@@ -1,5 +1,5 @@
 import os
-from solution import count_adjacent_rolls, count_accessible
+from solution import count_adjacent_rolls, count_accessible, count_accessible_with_iter_remove
 
 
 def read_example():
@@ -44,9 +44,18 @@ def test_count_adjacent_rolls_middle():
     print("test_count_adjacent_rolls_middle PASSED")
 
 
+def test_count_accessible_with_iter_remove_example():
+    """Test that count_accessible_with_iter_remove returns 43 for example.txt (Part 2)"""
+    grid = read_example()
+    result = count_accessible_with_iter_remove(grid)
+    assert result == 43, f"Expected 43, got {result}"
+    print("test_count_accessible_with_iter_remove_example PASSED")
+
+
 if __name__ == "__main__":
     test_count_accessible_example()
     test_count_adjacent_rolls_corner()
     test_count_adjacent_rolls_middle()
+    test_count_accessible_with_iter_remove_example()
     print("\nAll tests PASSED!")
 
