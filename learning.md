@@ -71,3 +71,46 @@ You can use `max()` directly on a string to find the character with the highest 
 digits = "3295"
 largest = max(digits)  # Returns "9" (as a string)
 ```
+
+---
+
+# Day 5: Recursion & Ranges
+
+## Recursion Pitfalls: Wrapper vs. Helper
+When writing a recursive function that requires a "helper" or "worker" step inside a loop (e.g., merging ranges until stable), be careful not to call the **wrapper** function recursively with the same data.
+
+**Incorrect (Infinite Recursion):**
+```python
+def process_data(data):
+    # This just calls itself with the same data -> Infinite Loop
+    new_data = process_data(data) 
+    # ...
+```
+
+**Correct (Iterative Wrapper):**
+Call the helper function that performs the actual unit of work.
+```python
+def process_data(data):
+    # Call the HELPER function to make progress
+    new_data = helper_function(data) 
+    if new_data != data:
+        # Recurse or loop with the NEW data
+        return process_data(new_data)
+    return data
+```
+
+## Python `any()` function
+The `any()` function is a concise way to check if *at least one* element in an iterable is Truthy. It stops evaluating as soon as it finds a True value (short-circuiting).
+
+```python
+# Check if ID is in ANY of the ranges
+is_fresh = any(id in r for r in ranges)
+```
+
+## One-liner Generator Expressions
+You can chain iterators to parse complex data structures efficiently in one line.
+
+```python
+# Parses "1-3\n5-7" into ((1, 3), (5, 7))
+ranges = tuple(tuple(map(int, line.split('-'))) for line in raw_lines)
+```
