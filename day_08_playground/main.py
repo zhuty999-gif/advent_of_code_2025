@@ -23,16 +23,19 @@ def gen_distance_table(inp):
     return {(p1, p2): calc_dist_3D(p1, p2) for p1, p2 in combinations(inp, 2)}
 
 
-def connect_circuits(inp, stop=0):
+def connect_circuits(inp, stop_after_n=None, stop_when_one_circuit=False):
     dist_map = gen_distance_table(inp)
     circ_yellowBook = {}
     circ_ids = {}
     circ_id = 0
-    effective_connections = 1
+    last_pair = None
+    connections_made = 0
 
-
-    for (p1, p2), dist in sorted(dist_map.items(), key=lambda x: x[1])[:stop]:
-        
+    for (p1, p2), dist in sorted(dist_map.items(), key=lambda x: x[1]):
+        if stop_after_n and connections_made >= stop_after_n:
+            break
+        if stop_when_one_circuit and len(circ_ids) == 1 and len(circ_yellowBook) == len(inp):
+            break
 
         cur_circuits = {
             "p1_circ": circ_yellowBook.get(p1, 0),
@@ -63,12 +66,16 @@ def connect_circuits(inp, stop=0):
                 else: # else always merge c1 onto c2
                     circ_yellowBook.update({x: p2_cid for x in circ_ids[p1_cid]})
                     circ_ids[p2_cid].extend(circ_ids[p1_cid])
-                    del circ_ids[p1_cid]        
+                    del circ_ids[p1_cid]  
+        
+        connections_made += 1
+        last_pair = (p1, p2)
+        #print(last_pair)
 
-    return circ_yellowBook, circ_ids       
+    return circ_yellowBook, circ_ids, last_pair       
 
 def find_circLenProdSum(circuits: dict, n=3) -> int:
     Z = sorted((len(c) for c in circuits.values()), reverse=True)[:n]
     return math.prod(Z)
 
-
+ 
